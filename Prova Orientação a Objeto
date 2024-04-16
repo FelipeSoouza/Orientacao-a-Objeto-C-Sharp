@@ -1,0 +1,446 @@
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Channels;
+
+
+namespace Prova01
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+
+                Console.WriteLine("Olá, bem vindo a prova do professor Luiz.Fizemos 5 exercicios.");
+                Console.WriteLine("Escolha qual exercicio deseja ver:");
+                Console.WriteLine("1(Exercicio 1)");
+                Console.WriteLine("2(Exercicio 2)");
+                Console.WriteLine("3(Exercicio 3)");
+                Console.WriteLine("4(Exercicio 4)");
+                Console.WriteLine("5(Exercicio 5)");
+                Console.WriteLine("6(Sair)");
+                Console.WriteLine("---------------------------------");
+                int escolha = int.Parse(Console.ReadLine());
+
+                switch (escolha)
+                {
+                    case 1:
+                        Exercicio1();
+                        break;
+                    case 2:
+                        Exercicio2();
+                        break;
+                    case 3:
+                        Exercicio3();
+                        break;
+                    case 4:
+                        Exercicio4();
+                        break;
+                    case 5:
+                        Exercicio5();
+                        break;
+                    case 6:
+                        return;
+                    default:
+                        Console.WriteLine("Escolha uma opção válida.");
+                        break;
+                }
+            }
+
+
+        }
+
+        static void Exercicio1()
+        {
+            Console.WriteLine("Escolha com quem deseja falar:");
+            Console.WriteLine("----------------------------------------");
+            Console.WriteLine("1 (Marcelo)");
+            Console.WriteLine("----------------------------------------");
+            Console.WriteLine("2 (Aluno)");
+            Console.WriteLine("----------------------------------------");
+            Console.WriteLine("3 (Professor)");
+            Console.WriteLine("----------------------------------------");
+            int escolha = int.Parse(Console.ReadLine());
+            Console.Clear();
+
+            Pessoa marcelo = new Pessoa();
+            Pessoa.Aluno aluno = new Pessoa.Aluno();
+            Pessoa.Professor professor = new Pessoa.Professor();
+
+            if (escolha == 1)
+            {
+                marcelo.Cumprimentar();
+            }
+
+            else if (escolha == 2)
+            {
+                aluno.CumprimentarAluno();
+
+                Console.WriteLine("Ir para escola 1 (SIM) ou 2 (NÃO)");
+                int escolhaAluno = int.Parse(Console.ReadLine());
+                Console.Clear();
+
+                if (escolhaAluno == 1)
+                {
+                    aluno.IrParaEscola();
+                }
+                else
+                {
+                    Console.WriteLine("Então vou ficar jogando em casa");
+                }
+            }
+            else if (escolha == 3)
+            {
+                professor.CumprimentarProfessor();
+
+                professor.Explicar();
+            }
+        }
+        public class Pessoa
+        {
+            public string Nome = "Marcelo";
+            public int Idade = 20;
+
+
+            public void Cumprimentar()
+            {
+                Console.WriteLine($"Olá! Meu nome é {Nome} e tenho {Idade} anos.");
+
+            }
+
+            public class Aluno : Pessoa
+            {
+                public string Nome = "Isadora";
+                public int Idade = 21;
+
+                public void CumprimentarAluno()
+                {
+                    Console.WriteLine($"Olá! Meu nome é {Nome} e tenho {Idade} anos.");
+                }
+
+                public void IrParaEscola()
+                {
+                    Console.WriteLine("Estou indo para escola ;)");
+
+                }
+
+
+            }
+
+            public class Professor : Pessoa
+            {
+                public string Nome = "Luiz";
+                public int Idade = 30;
+
+                public void CumprimentarProfessor()
+                {
+                    Console.WriteLine($"Olá! Meu nome é {Nome} e tenho {Idade} anos.");
+
+                }
+
+                public void Explicar()
+                {
+                    Console.WriteLine("Hoje vou explicar sobre orientação a objeto:");
+                    Console.WriteLine("------------------------------------------------");
+                    Console.WriteLine("A orientação a objetos é um paradigma de programação que se baseia no conceito de 'objetos'.");
+                    Console.WriteLine("Um objeto é uma instância de uma classe que possui características (atributos) e comportamentos (métodos).");
+                    Console.WriteLine("Isso torna o código mais modular, reutilizável e fácil de entender.");
+                    Console.WriteLine("Na orientação a objetos, trabalhamos com conceitos como classes, objetos, atributos, métodos, encapsulamento, herança e polimorfismo.");
+                }
+            }
+        }
+
+        static void Exercicio2()
+        {
+            Porta porta = new Porta();
+            Habitacao habitacao = new Habitacao();
+            Morador morador = new Morador();
+            Morador.CriarMorador pessoa = new Morador.CriarMorador();
+
+
+            Console.WriteLine("Escolha as opções:");
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("1 = (Falar com a Porta.)");
+            Console.WriteLine("2 = (Falar com a Habitação.)");
+            Console.WriteLine("3 = (Falar com um morador.)");
+            Console.WriteLine("4 = (Criar uma pessoa.)");
+            Console.WriteLine("----------------------------------");
+
+            int escolha = int.Parse(Console.ReadLine());
+            Console.Clear();
+
+            if (escolha == 1)
+            {
+                Console.Clear();
+                porta.MostrarCor();
+            }
+            else if (escolha == 2)
+            {
+                Console.WriteLine("Quantos metros vai ter sua habitação?");
+                habitacao.Area = double.Parse(Console.ReadLine());
+                Console.Clear();
+
+                habitacao.Mostrar();
+
+            }
+            else if (escolha == 3)
+            {
+                morador.Mostrar();
+
+            }
+            else if (escolha == 4)
+            {
+                pessoa.CriarPessoa();
+            }
+        }
+        public class Habitacao
+        {
+            public double Area = 123;
+            public Porta Porta = new Porta();
+
+            public Habitacao()
+            {
+            }
+
+            public Habitacao(double area, Porta porta)
+            {
+                Area = area;
+                Porta = porta;
+            }
+
+            public void Mostrar()
+            {
+                Console.WriteLine($"Eu sou uma habitação, minha área é {Area}m2, e a cor da minha porta é {Porta.Cor}");
+            }
+
+            public class Apartamento : Habitacao
+            {
+                public double Area = 50;
+            }
+        }
+        public class Morador : Pessoa
+        {
+            public Habitacao Habitacao = new Habitacao();
+
+            public void Mostrar()
+            {
+                base.Cumprimentar();
+                Habitacao.Mostrar();
+            }
+
+            public class CriarMorador : Habitacao
+            {
+
+                public Apartamento Apartamento = new Apartamento();
+
+                public string Nome = "Felipe";
+                public int Idade = 21;
+
+                public CriarMorador()
+                {
+                }
+
+                public CriarMorador(string nome, int idade)
+                {
+                    Nome = nome;
+                    Idade = idade;
+                }
+
+                public void CriarPessoa()
+                {
+
+                    Console.Clear();
+
+                    Console.WriteLine($"Olá, meu nome é {Nome} e eu tenho {Idade} anos.");
+                    Console.WriteLine($"Eu moro no apartamento 25 e ele tem {Apartamento.Area}m2.");
+
+                }
+            }
+
+        }
+        public class Porta
+        {
+            public string Cor { get; set; }
+
+            public Porta()
+            {
+                this.Cor = "Marrom";
+            }
+
+            public void MostrarCor()
+            {
+                Console.WriteLine($"Eu sou uma porta e minha cor é {Cor}.");
+            }
+        }
+
+        static void Exercicio3()
+        {
+            Retangulo[] retangulos = new Retangulo[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"Informe as dimensões do retângulo {i + 1}:");
+                Console.Write("Altura: ");
+                double altura = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Largura: ");
+                double largura = Convert.ToDouble(Console.ReadLine());
+
+                Console.Clear();
+
+                retangulos[i] = new Retangulo(altura, largura);
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"\nRetângulo {i + 1}:");
+                retangulos[i].MostrarRetangulo();
+            }
+        }
+        public class Retangulo
+        {
+            public double Altura { get; set; }
+            public double Largura { get; set; }
+
+
+            public Retangulo(double altura, double largura)
+            {
+                Altura = altura;
+                Largura = largura;
+            }
+
+            public void MostrarRetangulo()
+            {
+                Console.WriteLine("Altura: " + Altura);
+                Console.WriteLine("Largura: " + Largura);
+            }
+        }
+
+        static void Exercicio4()
+        {
+            Console.Write("Quantidade de pontos: ");
+            int N = int.Parse(Console.ReadLine());
+
+
+            Ponto3D[] pontos = new Ponto3D[N];
+
+
+            for (int i = 0; i < N; i++)
+            {
+                Console.WriteLine($"\nCoordenadas do ponto {i + 1}:");
+                Console.Write("X: ");
+                double x = double.Parse(Console.ReadLine());
+                Console.Write("Y: ");
+                double y = double.Parse(Console.ReadLine());
+                Console.Write("Z: ");
+                double z = double.Parse(Console.ReadLine());
+
+                pontos[i] = new Ponto3D(x, y, z);
+            }
+
+            Ponto3D primeiroPonto = pontos[0];
+            Console.WriteLine("\nDistâncias em relação ao primeiro ponto:");
+            for (int i = 1; i < N; i++)
+            {
+                double distancia = primeiroPonto.Distancia(pontos[i]);
+                Console.WriteLine($"Ponto {i + 1}: {distancia}");
+            }
+        }
+        public class Ponto3D
+        {
+            public double X { get; set; }
+            public double Y { get; set; }
+            public double Z { get; set; }
+
+            public Ponto3D(double x, double y, double z)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+            }
+
+
+            public void Mostrar()
+            {
+                Console.WriteLine($"({X}, {Y}, {Z})");
+            }
+
+            public void MoverPara(double x, double y, double z)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+            }
+
+
+            public double Distancia(Ponto3D p2)
+            {
+                double disX = X - p2.X;
+                double disY = Y - p2.Y;
+                double disZ = Z - p2.Z;
+
+                return Math.Sqrt(disX * disX + disY * disY + disZ * disZ);
+            }
+        }
+
+        static void Exercicio5()
+        {
+
+            AlbumDeFotos album = new AlbumDeFotos();
+
+            album.EscolherNumeroDePaginas();
+
+        }
+
+        public class AlbumDeFotos
+        {
+
+            public int NumeroTotalDePaginas { get; private set; }
+
+            public int NumeroTotalDeFotos => NumeroTotalDePaginas * 2;
+
+            private int _numeroDeFotos;
+            public int NumeroDeFotos
+            {
+                get { return _numeroDeFotos; }
+                set
+                {
+                    if (value <= NumeroTotalDeFotos)
+                    {
+                        _numeroDeFotos = value;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erro: número de fotos excede o limite do álbum.");
+                    }
+                }
+            }
+
+
+            public AlbumDeFotos(int numeroTotalDePaginas)
+            {
+                NumeroTotalDePaginas = numeroTotalDePaginas;
+            }
+
+            public AlbumDeFotos()
+            {
+            }
+
+            public void EscolherNumeroDePaginas()
+            {
+                AlbumDeFotos album = new AlbumDeFotos(10);
+
+                Console.WriteLine("Teste com número de fotos excedendo o limite.");
+                album.NumeroDeFotos = 25;
+
+                Console.WriteLine("\nTeste com número de fotos dentro do limite.");
+                album.NumeroDeFotos = 15;
+
+
+            }
+        }
+
+
+
+    }
+}
+
